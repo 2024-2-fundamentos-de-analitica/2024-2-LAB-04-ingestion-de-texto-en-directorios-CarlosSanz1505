@@ -88,10 +88,12 @@ def pregunta_01():
     }
     
     # Recorrer y leer archivos de entrada
-    for pathname in glob.glob('./files/input/*/*/*'):
+    for pathname in glob.glob('./files/input/*/*/*.txt'):
+        pathname = pathname.replace('\\', '/')
+        print(pathname)
         with open(pathname) as file:
             phrase = file.read()
-            split, target = os.path.dirname(pathname).split('\\')[-2:]
+            split, target = os.path.dirname(pathname).split('/')[-2:]
             values = pd.DataFrame([[phrase, target]], columns=columns)
             output[split] = pd.concat([output[split], values], ignore_index=True)
 
@@ -99,4 +101,4 @@ def pregunta_01():
     os.makedirs('./files/output/')
     for split in output:
         output[split].to_csv(f'./files/output/{split}_dataset.csv')
-# pregunta_01()
+pregunta_01()
